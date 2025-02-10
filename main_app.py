@@ -72,6 +72,10 @@ buffer = io.BytesIO()
 st.write("How about scraping the web for gettting some new leads?")
 
 query = st.text_input("What are you looking for?")
+if query == "":
+    query = "Marco Pirola king"
+else:
+    pass
 num_pages = st.slider("How many pages you wanna scrape?", 1, 10, 1)
 
 if st.button("Run!"):
