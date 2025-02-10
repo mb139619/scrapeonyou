@@ -38,8 +38,6 @@ def scrape_web_results(query:str, num_pages:int):
         driver.get(f'https://www.ecosia.org/search?method=index&q={search_query}&p={str(i)}')
         
         time.sleep(5)
-        #wait = WebDriverWait(driver, 10)
-        #link_elements = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'a[data-test-id="result-link"]')))
         link_elements = driver.find_elements(By.CSS_SELECTOR, 'a[data-test-id="result-link"]')
 
 
