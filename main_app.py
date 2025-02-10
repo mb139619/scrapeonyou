@@ -6,7 +6,12 @@ import pandas as pd
 from selenium.webdriver.common.by import By
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
+@st.experimental_singleton
+def get_driver():
+    return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 def queryConverter(query:str):
 
@@ -20,12 +25,9 @@ def queryConverter(query:str):
 
 def scrape_web_results(query:str, num_pages:int):
     
-    
-
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Enable headless mode
-
-    chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+    options = Options()
+    options.add_argument("--headless")  # Enable headless mode
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
 
     search_query = queryConverter(query)
     filter_string = "https://"
@@ -34,7 +36,7 @@ def scrape_web_results(query:str, num_pages:int):
 
     while i < num_pages:
 
-        driver = webdriver.Chrome(options=chrome_options)
+        driver = get_driver()
         driver.get(f'https://www.ecosia.org/search?method=index&q={search_query}&p={str(i)}')
         
         time.sleep(5)
